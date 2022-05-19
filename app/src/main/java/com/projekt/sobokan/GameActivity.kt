@@ -1,9 +1,9 @@
 package com.projekt.sobokan
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import java.io.BufferedReader
 import java.io.IOException
@@ -12,11 +12,12 @@ import java.io.InputStreamReader
 
 class GameActivity : AppCompatActivity() {
 
-    lateinit var gameState: MutableList<MutableList<Int>>
-    val tileSize: Int = 75
+    private lateinit var gameState: MutableList<MutableList<Int>>
+    var tileSize: Int = 0
+    val tileList = mutableListOf<Tile>()
+    val screenWidth = Resources.getSystem().displayMetrics.widthPixels;
+    val screenHeight = Resources.getSystem().displayMetrics.heightPixels;
 
-
-    var tileList = mutableListOf<Tile>()
     fun loadLevel(levelPath: String){
         gameState.clear()
         try {
@@ -41,6 +42,7 @@ class GameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         //loadLevel("1.txt")
+
         var tempTile = Tile(this)
         tempTile.SetType(1)
         setContentView(tempTile)

@@ -3,10 +3,12 @@ package com.projekt.sobokan
 import android.content.Context
 import android.graphics.*
 import android.view.View
+import com.projekt.sobokan.TileType.*
+import com.projekt.sobokan.TileType.FLOOR as FLOOR
 
 
-enum class TileType{
-    WALL, FLOOR, TARGET
+enum class TileType(i: Int) {
+    WALL(0), FLOOR(1), TARGET(2)
 }
 
 class Tile(context: Context, desiredSize: Int) : View(context) {
@@ -15,7 +17,7 @@ class Tile(context: Context, desiredSize: Int) : View(context) {
     var size = desiredSize
     var type: Int = 0
     var paint: Paint = Paint()
-    var bitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.wall) // TODO create default texture
+    lateinit var bitmap: Bitmap
 
     fun SetType(desiredType: Int) {
         this.type = desiredType
