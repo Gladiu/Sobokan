@@ -2,56 +2,51 @@ package com.projekt.sobokan
 
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
+import android.view.Gravity
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.io.BufferedReader
-import java.io.IOException
-import java.io.InputStreamReader
 
 
 class GameActivity : AppCompatActivity() {
 
-    //private lateinit var gameState: MutableList<MutableList<Int>>
-    private lateinit var tileList: MutableList<MutableList<Tile>>
-    //val tileList = mutableListOf<Tile>()
+    val tileList:MutableList<Tile> = mutableListOf<Tile>()
+    val maxTilesInLine = 15
     val screenWidth = Resources.getSystem().displayMetrics.widthPixels;
     val screenHeight = Resources.getSystem().displayMetrics.heightPixels;
-    val gameRectangle: Rect = Rect(screenWidth*0.1, screenHeight*0.1, screenWidth*0.9, screenHeight*0.5)
-    var tileSize: Int = 0
+    var tileSize: Int = (screenWidth*0.8/maxTilesInLine).toInt()
 
     fun loadLevel(levelPath: String){
-        gameState.clear()
-        try {
-            val reader = BufferedReader(InputStreamReader(assets.open(levelPath)))
-            var line: String
-            Log.e("Reader Stuff", reader.readLine())
+        //tileList.clear()
 
-            var currentY = 0
-            while (reader.readLine().also { line = it } != null) {
+        var currentY = 0
+        try{
+            application.assets.open(levelPath).bufferedReader().forEachLine {
                 var currentX = 0
-                for (character in line){
-                    tileList[currentX][currentY] = character.digitToInt()
-                    tileList[currentX][currentY].SetType(character.digitToInt())
+                for (character in it) {
+                    var tempTile: Tile = Tile(this, tileSize)
+                    tempTile.SetType(character.digitToInt())
+                    tempTile.x = (screenWidth * 0.1 + tileSize * currentX).toDouble()
+                    tempTile.y = (screenHeight * 0.1 + tileSize * currentY).toDouble()
+                    tileList.add(tempTile)
                     currentX++
                 }
                 currentY++
             }
-        } catch (ex: IOException) {
-            ex.printStackTrace()
+        }
+        catch (e: Exception){
+            println(e.toString())
         }
     }
 
     fun DrawGame(){
-        for (subList in tileList) {
-            for (element in subList){
-                setContentView(element)
-            }
+        for (element in tileList) {
+            element.Draw(R.layout.cav)
         }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        loadLevel("1.txt")
         DrawGame()
 
     }

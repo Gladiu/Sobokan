@@ -3,8 +3,6 @@ package com.projekt.sobokan
 import android.content.Context
 import android.graphics.*
 import android.view.View
-import com.projekt.sobokan.TileType.*
-import com.projekt.sobokan.TileType.FLOOR as FLOOR
 
 class Tile(context: Context, desiredSize: Int) : View(context) {
     var x = 0.0
@@ -28,9 +26,8 @@ class Tile(context: Context, desiredSize: Int) : View(context) {
         bitmap = Bitmap.createScaledBitmap(bitmap, size, size, false)
     }
 
-    public override fun onDraw(canvas: Canvas) {
+    fun Draw(canvas: Canvas) {
         this.paint.color = Color.RED
-
         canvas.drawBitmap(this.bitmap, this.x.toFloat(), this.y.toFloat(), this.paint)
     }
 }
