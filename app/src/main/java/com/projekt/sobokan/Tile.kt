@@ -6,11 +6,6 @@ import android.view.View
 import com.projekt.sobokan.TileType.*
 import com.projekt.sobokan.TileType.FLOOR as FLOOR
 
-
-enum class TileType(i: Int) {
-    WALL(0), FLOOR(1), TARGET(2)
-}
-
 class Tile(context: Context, desiredSize: Int) : View(context) {
     var x = 0.0
     var y = 0.0

@@ -12,11 +12,13 @@ import java.io.InputStreamReader
 
 class GameActivity : AppCompatActivity() {
 
-    private lateinit var gameState: MutableList<MutableList<Int>>
-    var tileSize: Int = 0
-    val tileList = mutableListOf<Tile>()
+    //private lateinit var gameState: MutableList<MutableList<Int>>
+    private lateinit var tileList: MutableList<MutableList<Tile>>
+    //val tileList = mutableListOf<Tile>()
     val screenWidth = Resources.getSystem().displayMetrics.widthPixels;
     val screenHeight = Resources.getSystem().displayMetrics.heightPixels;
+    val gameRectangle: Rect = Rect(screenWidth*0.1, screenHeight*0.1, screenWidth*0.9, screenHeight*0.5)
+    var tileSize: Int = 0
 
     fun loadLevel(levelPath: String){
         gameState.clear()
@@ -29,7 +31,8 @@ class GameActivity : AppCompatActivity() {
             while (reader.readLine().also { line = it } != null) {
                 var currentX = 0
                 for (character in line){
-                    gameState[currentX][currentY] = character.digitToInt()
+                    tileList[currentX][currentY] = character.digitToInt()
+                    tileList[currentX][currentY].SetType(character.digitToInt())
                     currentX++
                 }
                 currentY++
@@ -38,15 +41,18 @@ class GameActivity : AppCompatActivity() {
             ex.printStackTrace()
         }
     }
+
+    fun DrawGame(){
+        for (subList in tileList) {
+            for (element in subList){
+                setContentView(element)
+            }
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        //loadLevel("1.txt")
-
-        var tempTile = Tile(this)
-        tempTile.SetType(1)
-        setContentView(tempTile)
-
+        DrawGame()
 
     }
 }
