@@ -7,17 +7,17 @@ import android.graphics.*
 import android.view.View
 import androidx.core.graphics.scale
 
-class Tile(val x: Int, val y: Int, val type: Int)
 
 class GameMap(context: Context) : View(context) {
 
+    class Tile(val x: Int, val y: Int, val type: Int)
     val screenWidth = Resources.getSystem().displayMetrics.widthPixels;
     val screenHeight = Resources.getSystem().displayMetrics.heightPixels;
 
     var paint: Paint = Paint()
 
     val tileInfo:MutableList<Tile> = mutableListOf<Tile>()
-    val maxTilesInLine = 10
+    val maxTilesInLine = 7
     val tileSize: Int = (screenWidth*0.8/maxTilesInLine).toInt()
 
     val wallBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.wall).scale(tileSize,tileSize, true)
@@ -52,7 +52,7 @@ class GameMap(context: Context) : View(context) {
         }
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    fun Draw(canvas: Canvas?) {
 
         for (tile in tileInfo){
             if (tile.type == 1)
