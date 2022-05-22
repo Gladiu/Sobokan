@@ -10,9 +10,10 @@ import androidx.core.graphics.scale
 
 class GameMap(context: Context) : View(context) {
 
-    class Tile(val x: Int, val y: Int, val type: Int)
-    val screenWidth = Resources.getSystem().displayMetrics.widthPixels;
-    val screenHeight = Resources.getSystem().displayMetrics.heightPixels;
+    enum class TileType(i: Int) { Floor(0), Wall(1), Target(2) }
+    class Tile(val x: Int, val y: Int, val type: TileType, val logicX: Int, val logicY: Int)
+    val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+    val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
     var paint: Paint = Paint()
 
@@ -26,7 +27,7 @@ class GameMap(context: Context) : View(context) {
 
 
     fun loadLevel(levelPath: String, application: Application){
-        //tileList.clear()
+        tileInfo.clear()
 
         var currentY = 0
         try{
@@ -38,7 +39,9 @@ class GameMap(context: Context) : View(context) {
                         var tempTile: Tile = Tile(
                             (screenWidth * 0.1 + tileSize * currentX).toInt(),
                             (screenHeight * 0.1 + tileSize * currentY).toInt(),
-                            character.digitToInt()
+                            TileType(character.digitToInt()),
+                            currentX,
+                            currentY
                         )
                         tileInfo.add(tempTile)
                     }
@@ -55,11 +58,11 @@ class GameMap(context: Context) : View(context) {
     fun Draw(canvas: Canvas?) {
 
         for (tile in tileInfo){
-            if (tile.type == 1)
+            if (tile.type == TileType.Floor)
                 canvas?.drawBitmap(floorBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
-            if (tile.type == 2)
+            if (tile.type == TileType.Wall)
                 canvas?.drawBitmap(wallBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
-            if (tile.type == 3)
+            if (tile.type == TileType.Target)
                 canvas?.drawBitmap(targetBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
         }
     }
