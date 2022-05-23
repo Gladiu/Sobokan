@@ -4,14 +4,15 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
+import android.icu.util.TimeUnit.values
 import android.view.View
 import androidx.core.graphics.scale
+import java.sql.Types
 
 
 class GameMap(context: Context) : View(context) {
 
-    enum class TileType(i: Int) { Floor(0), Wall(1), Target(2) }
-    class Tile(val x: Int, val y: Int, val type: TileType, val logicX: Int, val logicY: Int)
+    class Tile(val x: Int, val y: Int, val type: Int, val logicX: Int, val logicY: Int)
     val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
@@ -39,7 +40,7 @@ class GameMap(context: Context) : View(context) {
                         var tempTile: Tile = Tile(
                             (screenWidth * 0.1 + tileSize * currentX).toInt(),
                             (screenHeight * 0.1 + tileSize * currentY).toInt(),
-                            TileType(character.digitToInt()),
+                            character.digitToInt(),
                             currentX,
                             currentY
                         )
@@ -58,11 +59,11 @@ class GameMap(context: Context) : View(context) {
     fun Draw(canvas: Canvas?) {
 
         for (tile in tileInfo){
-            if (tile.type == TileType.Floor)
+            if (tile.type == 1)
                 canvas?.drawBitmap(floorBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
-            if (tile.type == TileType.Wall)
+            if (tile.type == 2)
                 canvas?.drawBitmap(wallBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
-            if (tile.type == TileType.Target)
+            if (tile.type == 3)
                 canvas?.drawBitmap(targetBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
         }
     }
