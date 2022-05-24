@@ -34,14 +34,23 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     private var myHandler = Handler(Looper.getMainLooper())
     private val repeatPeriod: Long = 50
 
+    private var lastScreenTap: Long = 0
     fun ScreenTapped(): Boolean {
-        if (map.CanMoveToTile(player.requestedMoveX + player.logicX, player.requestedMoveY + player.logicY)){
-            player.x += (map.tileSize)*player.requestedMoveX
-            player.y += (map.tileSize)*player.requestedMoveY
-            player.logicX += player.requestedMoveX
-            player.logicY += player.requestedMoveY
-            println("asd")
-            return true
+
+        if (System.currentTimeMillis() > lastScreenTap+200) {
+            lastScreenTap = System.currentTimeMillis()
+            if (map.CanMoveToTile(
+                    player.requestedMoveX + player.logicX,
+                    player.requestedMoveY + player.logicY
+                )
+            ) {
+                player.x += (map.tileSize) * player.requestedMoveX
+                player.y += (map.tileSize) * player.requestedMoveY
+                player.logicX += player.requestedMoveX
+                player.logicY += player.requestedMoveY
+                println("asd")
+                return true
+            }
         }
         return false
     }
