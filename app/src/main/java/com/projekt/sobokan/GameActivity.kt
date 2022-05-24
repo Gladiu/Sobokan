@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import java.lang.Math.abs
 
@@ -33,15 +34,16 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
     private var myHandler = Handler(Looper.getMainLooper())
     private val repeatPeriod: Long = 50
 
-    fun ScreenTapped() {
-        println(player)
-        println("asd")
-        if (map.CanMoveToTile(player.requestedMoveX + player.logicX, player.requestedMoveY + player.logicX)){
+    fun ScreenTapped(): Boolean {
+        if (map.CanMoveToTile(player.requestedMoveX + player.logicX, player.requestedMoveY + player.logicY)){
             player.x += (map.tileSize)*player.requestedMoveX
             player.y += (map.tileSize)*player.requestedMoveY
             player.logicX += player.requestedMoveX
             player.logicY += player.requestedMoveY
+            println("asd")
+            return true
         }
+        return false
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,11 +70,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-        gameView.isClickable = true
-        gameView.setOnClickListener {
-
-            ScreenTapped()
-        }
 
         runnable = Runnable {
 
@@ -80,7 +77,10 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
             myHandler.postDelayed(runnable, repeatPeriod)
 
         }
-            myHandler.postDelayed(runnable, repeatPeriod)
+        myHandler.postDelayed(runnable, repeatPeriod)
+
+        gameView.setOnTouchListener { v, event -> ScreenTapped()  }
+
     }
 
 

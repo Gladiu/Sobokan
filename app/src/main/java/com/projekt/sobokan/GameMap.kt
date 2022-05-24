@@ -4,10 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
-import android.icu.util.TimeUnit.values
 import android.view.View
 import androidx.core.graphics.scale
-import java.sql.Types
 
 
 class GameMap(context: Context) : View(context) {
@@ -56,7 +54,7 @@ class GameMap(context: Context) : View(context) {
     }
     fun CanMoveToTile(requestedX:Int, requestedY: Int) : Boolean{
         val searchedTile:Tile? = tileInfo.find { (it.logicX == requestedX) and (it.logicY == requestedY)}
-        return (searchedTile?.type == 1) or (searchedTile?.type == 4)
+        return (searchedTile != null) and ((searchedTile?.type == 4) or (searchedTile?.type == 1))
     }
 
     fun ResetPlayer( player: Player){
