@@ -1,45 +1,40 @@
 package com.projekt.sobokan
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.graphics.scale
 
-class Player(context: Context, val size: Int): View(context) {
+enum class PlayerDirection{
+    North, South, East, West
+}
+
+class Player(context: Context, val size: Int): View(context){
     private lateinit var runnable: Runnable
     private var myHandler = Handler(Looper.getMainLooper())
     private val repeatPeriod: Long = 100
 
     var x: Int = 0
     var y: Int = 0
-    enum class PlayerDirection{
-        North, South, East, West
-    }
+    var logicX:Int = 0
+    var logicY:Int = 0
     private var dir: PlayerDirection = PlayerDirection.South
+    var requestedMoveX: Int = 1
+    var requestedMoveY: Int = 0
     private val northBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hero_backt).scale(size,size, true)
     private val southBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hero_front).scale(size,size, true)
     private val eastBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hero_rightt).scale(size,size, true)
     private val westBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.hero_left).scale(size,size, true)
     private var paint: Paint = Paint()
 
-    init{
-        runnable = Runnable {
-
-            x = SensorManager.AXIS_X
-            myHandler.postDelayed(runnable, repeatPeriod)
-
-        }
-        myHandler.postDelayed(runnable, repeatPeriod)
-    }
-
     fun Draw(canvas: Canvas?) {
-
         if (dir == PlayerDirection.South)
             canvas?.drawBitmap(southBitmap, x.toFloat(), y.toFloat(), this.paint)
         if ( dir == PlayerDirection.North)
@@ -48,6 +43,20 @@ class Player(context: Context, val size: Int): View(context) {
             canvas?.drawBitmap(eastBitmap, x.toFloat(), y.toFloat(), this.paint)
         if ( dir == PlayerDirection.West)
             canvas?.drawBitmap(westBitmap, x.toFloat(), y.toFloat(), this.paint)
+        var myPaint = Paint();
+
+
+        paint.setStyle(Paint.Style.STROKE);
+        myPaint.setColor(Color.rgb(0, 0, 0));
+        myPaint.setStrokeWidth(10F);
+        var tempRect = Rect()
+        tempRect.left = x + requestedMoveX*size
+        tempRect.top = y + requestedMoveY*size
+        tempRect.right += tempRect.left + size
+        tempRect.bottom += tempRect.top + size
+        if ((tempRect.left != x) or (tempRect.top != y)){
+            canvas?.drawRect(tempRect, myPaint)
+        }
     }
 
 }

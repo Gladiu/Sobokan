@@ -9,7 +9,7 @@ class GameView(context: Context) : View(context) {
     lateinit var player: Player
 
     override fun onDraw(canvas: Canvas?) {
-        player.Draw(canvas)
         gameMap.Draw(canvas)
+        player.Draw(canvas)
     }
 }

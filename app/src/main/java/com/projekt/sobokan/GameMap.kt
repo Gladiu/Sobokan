@@ -19,6 +19,7 @@ class GameMap(context: Context) : View(context) {
     var paint: Paint = Paint()
 
     val tileInfo:MutableList<Tile> = mutableListOf<Tile>()
+
     val maxTilesInLine = 7
     val tileSize: Int = (screenWidth*0.8/maxTilesInLine).toInt()
 
@@ -29,10 +30,8 @@ class GameMap(context: Context) : View(context) {
 
     fun loadLevel(levelPath: String, application: Application){
         tileInfo.clear()
-
         var currentY = 0
         try{
-
             application.assets.open(levelPath).bufferedReader().forEachLine {
                 var currentX = 0
                 for (character in it) {
@@ -55,11 +54,24 @@ class GameMap(context: Context) : View(context) {
             println(e.toString())
         }
     }
+    fun CanMoveToTile(requestedX:Int, requestedY: Int) : Boolean{
+        val searchedTile:Tile? = tileInfo.find { (it.logicX == requestedX) and (it.logicY == requestedY)}
+        return (searchedTile?.type == 1) or (searchedTile?.type == 4)
+    }
 
+    fun ResetPlayer( player: Player){
+        val searchedTile:Tile? = tileInfo.find { (it.type == 4)}
+        if (searchedTile?.type == 4){
+            player.x = searchedTile.x
+            player.y = searchedTile.y
+            player.logicX = searchedTile.logicX
+            player.logicY = searchedTile.logicY
+        }
+    }
     fun Draw(canvas: Canvas?) {
 
         for (tile in tileInfo){
-            if (tile.type == 1)
+            if ((tile.type == 1) or (tile.type == 4))
                 canvas?.drawBitmap(floorBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
             if (tile.type == 2)
                 canvas?.drawBitmap(wallBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
