@@ -48,7 +48,6 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
                 player.y += (map.tileSize) * player.requestedMoveY
                 player.logicX += player.requestedMoveX
                 player.logicY += player.requestedMoveY
-                println("asd")
                 return true
             }
         }
@@ -133,17 +132,24 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         val roll = orientation[2]
         val rollDeg = Math.round(Math.toDegrees(roll.toDouble())).toInt()
 
-        if ( (abs(pitchDeg) > 10) ){
-            player.requestedMoveY = if (pitchDeg > 0) -1 else 1
-        }
-        else {
-            player.requestedMoveY = 0
-        }
-        if ( (abs(rollDeg) > 10) ){
-            player.requestedMoveX = if (rollDeg > 0) 1 else -1
-        }
-        else {
+        if ( (abs(pitchDeg) > abs(rollDeg) ) ){
+
             player.requestedMoveX = 0
+            if ( (abs(pitchDeg) > 5) ){
+            player.requestedMoveY = if (pitchDeg > 0) -1 else 1
+            }
+            else {
+                player.requestedMoveY = 0
+            }
+        }
+        if ( (abs(rollDeg) > abs(pitchDeg) ) ){
+            player.requestedMoveY = 0
+            if ( (abs(rollDeg) > 5) ){
+                player.requestedMoveX = if (rollDeg > 0) 1 else -1
+            }
+            else {
+                player.requestedMoveX = 0
+            }
         }
     }
 

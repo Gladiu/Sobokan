@@ -47,7 +47,7 @@ class Player(context: Context, val size: Int): View(context){
 
 
         paint.setStyle(Paint.Style.STROKE);
-        myPaint.setColor(Color.rgb(0, 0, 0));
+        myPaint.setColor(Color.argb(125,255,255, 0));
         myPaint.setStrokeWidth(10F);
         var tempRect = Rect()
         tempRect.left = x + requestedMoveX*size
