@@ -84,6 +84,9 @@ class GameMap(context: Context) : View(context) {
                 searchedCrate.logicY = newCrateTile?.logicY!!
                 return true
             }
+            else{
+                return false
+            }
         }
         return (requestedTile != null) and ((requestedTile?.type == 4) or (requestedTile?.type == 1) or (requestedTile?.type == 3))
     }
