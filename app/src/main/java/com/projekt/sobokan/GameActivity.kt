@@ -39,7 +39,9 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
         if (System.currentTimeMillis() > lastScreenTap+200) {
             lastScreenTap = System.currentTimeMillis()
-            if (map.CanMoveToTile(
+            if (map.CheckMove(
+                    player.logicX,
+                    player.logicY,
                     player.requestedMoveX + player.logicX,
                     player.requestedMoveY + player.logicY
                 )
