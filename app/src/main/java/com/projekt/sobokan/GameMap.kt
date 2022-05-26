@@ -6,6 +6,7 @@ import android.content.res.Resources
 import android.graphics.*
 import android.view.View
 import androidx.core.graphics.scale
+import androidx.fragment.app.FragmentActivity
 
 class GameMap(context: Context) : View(context) {
 
@@ -30,7 +31,7 @@ class GameMap(context: Context) : View(context) {
     val crateBitmap: Bitmap = BitmapFactory.decodeResource(resources, R.drawable.crate).scale(tileSize,tileSize, true)
 
 
-    fun loadLevel(levelPath: String, application: Application){
+    fun loadLevel(levelPath: String, application: FragmentActivity){
         tileInfo.clear()
         var currentY = 0
         try{

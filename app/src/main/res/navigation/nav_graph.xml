@@ -19,20 +19,20 @@
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
-            android:id="@+id/action_mainMenu_to_gameActivity"
-            app:destination="@id/gameActivity" />
+            android:id="@+id/action_mainMenu_to_highScores"
+            app:destination="@id/highScores" />
         <action
-            android:id="@+id/action_mainMenu_to_scoreActivity"
-            app:destination="@id/scoreActivity" />
+            android:id="@+id/action_mainMenu_to_gameFragment"
+            app:destination="@id/gameFragment" />
     </fragment>
-    <activity
-        android:id="@+id/gameActivity"
-        android:name="com.projekt.sobokan.GameActivity"
-        android:label="activity_game"
-        tools:layout="@layout/activity_game" />
-    <activity
-        android:id="@+id/scoreActivity"
-        android:name="com.projekt.sobokan.ScoreActivity"
-        android:label="activity_score"
-        tools:layout="@layout/activity_score" />
+    <fragment
+        android:id="@+id/highScores"
+        android:name="com.projekt.sobokan.HighScores"
+        android:label="fragment_high_scores"
+        tools:layout="@layout/fragment_high_scores" />
+    <fragment
+        android:id="@+id/gameFragment"
+        android:name="com.projekt.sobokan.GameFragment"
+        android:label="fragment_game_fragment"
+        tools:layout="@layout/fragment_game_fragment" />
 </navigation>

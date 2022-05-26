@@ -10,13 +10,15 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import java.lang.Math.abs
 
 
-class GameActivity : AppCompatActivity(), SensorEventListener {
+class GameFragment : Fragment(), SensorEventListener {
 
     lateinit var map: GameMap
     lateinit var player: Player
@@ -57,20 +59,24 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         }
         return false
     }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         //loadLevel("1.txt")
-        map = GameMap(this)
-        gameView = GameView(this)
-        map.loadLevel("1.txt", application)
-        player = Player(this, map.tileSize)
+        map = GameMap(requireContext())
+        gameView = GameView(requireContext())
+        map.loadLevel("1.txt", requireActivity())
+        player = Player(requireContext(), map.tileSize)
         map.ResetPlayer(player)
         gameView.player = player
         gameView.gameMap = map
 
 
         // Setup the sensors
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager;
+        sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager;
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         if (accelerometer == null) {
             Log.d(TAG, "accelerometer is null");
@@ -83,19 +89,20 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
 
 
-        runnable = Runnable {
+        gameView.setOnTouchListener { v, event -> ScreenTapped()  }
+        return gameView
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+            runnable = Runnable {
 
-            setContentView(gameView)
-            if (map.CheckGameEnd()) {
-                finish()
-            }
-            myHandler.postDelayed(runnable, repeatPeriod)
+                gameView.visibility = View.GONE
+                gameView.visibility = View.VISIBLE
+                myHandler.postDelayed(runnable, repeatPeriod)
 
         }
         myHandler.postDelayed(runnable, repeatPeriod)
-
-        gameView.setOnTouchListener { v, event -> ScreenTapped()  }
-        scoreIntent = Intent(gameView.context, ScoreActivity::class.java)
 
     }
 
