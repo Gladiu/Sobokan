@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/titleScreen">
+    <fragment
+        android:id="@+id/titleScreen"
+        android:name="com.projekt.sobokan.TitleScreen"
+        android:label="fragment_title_screen"
+        tools:layout="@layout/fragment_title_screen" >
+        <action
+            android:id="@+id/action_titleScreen_to_mainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="com.projekt.sobokan.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenu_to_gameActivity"
+            app:destination="@id/gameActivity" />
+        <action
+            android:id="@+id/action_mainMenu_to_scoreActivity"
+            app:destination="@id/scoreActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/gameActivity"
+        android:name="com.projekt.sobokan.GameActivity"
+        android:label="activity_game"
+        tools:layout="@layout/activity_game" />
+    <activity
+        android:id="@+id/scoreActivity"
+        android:name="com.projekt.sobokan.ScoreActivity"
+        android:label="activity_score"
+        tools:layout="@layout/activity_score" />
+</navigation>

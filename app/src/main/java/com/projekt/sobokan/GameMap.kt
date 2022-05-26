@@ -10,7 +10,7 @@ import androidx.core.graphics.scale
 class GameMap(context: Context) : View(context) {
 
     class Tile(val x: Int, val y: Int, val type: Int, val logicX: Int, val logicY: Int)
-    class Crate(var x: Int, var y: Int, var logicX: Int, var logicY: Int)
+    class Crate(var x: Int, var y: Int, var logicX: Int, var logicY: Int, var onSpot: Boolean)
     val screenWidth = Resources.getSystem().displayMetrics.widthPixels
     val screenHeight = Resources.getSystem().displayMetrics.heightPixels
 
@@ -19,6 +19,7 @@ class GameMap(context: Context) : View(context) {
 
     val tileInfo:MutableList<Tile> = mutableListOf<Tile>()
     val crateInfo:MutableList<Crate> = mutableListOf<Crate>()
+    lateinit var spawnTile:Tile
 
     val maxTilesInLine = 7
     val tileSize: Int = (screenWidth*0.8/maxTilesInLine).toInt()
@@ -36,7 +37,7 @@ class GameMap(context: Context) : View(context) {
             application.assets.open(levelPath).bufferedReader().forEachLine {
                 var currentX = 0
                 for (character in it) {
-                    if(character.digitToInt() == 5) {
+                    if(character.digitToInt() == 4) {
                         var tempTile: Tile = Tile(
                             (screenWidth * 0.1 + tileSize * currentX).toInt(),
                             (screenHeight * 0.1 + tileSize * currentY).toInt(),
@@ -48,10 +49,22 @@ class GameMap(context: Context) : View(context) {
                             (screenWidth * 0.1 + tileSize* currentX).toInt(),
                             (screenHeight * 0.1 +  tileSize* currentY).toInt(),
                             currentX,
-                            currentY
+                            currentY,
+                            false
                         )
                         tileInfo.add(tempTile)
                         crateInfo.add(tempCrate)
+                    }
+                    if(character.digitToInt() == 5) {
+                        var tempTile: Tile = Tile(
+                            (screenWidth * 0.1 + tileSize * currentX).toInt(),
+                            (screenHeight * 0.1 + tileSize * currentY).toInt(),
+                            1,
+                            currentX,
+                            currentY
+                        )
+                        spawnTile = tempTile
+                        tileInfo.add(tempTile)
                     }
                     if(character.digitToInt() != 0) {
                         var tempTile: Tile = Tile(
@@ -82,6 +95,7 @@ class GameMap(context: Context) : View(context) {
                 searchedCrate.y = newCrateTile?.y!!
                 searchedCrate.logicX = newCrateTile?.logicX!!
                 searchedCrate.logicY = newCrateTile?.logicY!!
+                searchedCrate.onSpot = newCrateTile?.type == 3
                 return true
             }
             else{
@@ -92,18 +106,19 @@ class GameMap(context: Context) : View(context) {
     }
 
     fun ResetPlayer( player: Player){
-        val searchedTile:Tile? = tileInfo.find { (it.type == 4)}
-        if (searchedTile?.type == 4){
-            player.x = searchedTile.x
-            player.y = searchedTile.y
-            player.logicX = searchedTile.logicX
-            player.logicY = searchedTile.logicY
-        }
+        player.x = spawnTile.x
+        player.y = spawnTile.y
+        player.logicX = spawnTile.logicX
+        player.logicY = spawnTile.logicY
+    }
+
+    fun CheckGameEnd() : Boolean{
+        return crateInfo.find{ !it.onSpot } == null
     }
     fun Draw(canvas: Canvas?) {
 
         for (tile in tileInfo){
-            if ((tile.type == 1) or (tile.type == 4))
+            if ((tile.type == 1))
                 canvas?.drawBitmap(floorBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)
             if (tile.type == 2)
                 canvas?.drawBitmap(wallBitmap, tile.x.toFloat(), tile.y.toFloat(), this.paint)

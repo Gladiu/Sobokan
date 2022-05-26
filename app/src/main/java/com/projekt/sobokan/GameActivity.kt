@@ -1,6 +1,7 @@
 package com.projekt.sobokan
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -23,6 +24,7 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
 
 
     private val TAG = "GameActivity"
+    lateinit var scoreIntent:Intent
 
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
@@ -84,12 +86,16 @@ class GameActivity : AppCompatActivity(), SensorEventListener {
         runnable = Runnable {
 
             setContentView(gameView)
+            if (map.CheckGameEnd()) {
+                finish()
+            }
             myHandler.postDelayed(runnable, repeatPeriod)
 
         }
         myHandler.postDelayed(runnable, repeatPeriod)
 
         gameView.setOnTouchListener { v, event -> ScreenTapped()  }
+        scoreIntent = Intent(gameView.context, ScoreActivity::class.java)
 
     }
 
