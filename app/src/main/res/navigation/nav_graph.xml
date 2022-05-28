@@ -19,20 +19,38 @@
         android:label="fragment_main_menu"
         tools:layout="@layout/fragment_main_menu" >
         <action
-            android:id="@+id/action_mainMenu_to_highScores"
-            app:destination="@id/highScores" />
-        <action
-            android:id="@+id/action_mainMenu_to_gameFragment"
-            app:destination="@id/gameFragment" />
+            android:id="@+id/action_mainMenu_to_selectLevel"
+            app:destination="@id/selectLevel" />
     </fragment>
-    <fragment
-        android:id="@+id/highScores"
-        android:name="com.projekt.sobokan.HighScores"
-        android:label="fragment_high_scores"
-        tools:layout="@layout/fragment_high_scores" />
     <fragment
         android:id="@+id/gameFragment"
         android:name="com.projekt.sobokan.GameFragment"
         android:label="fragment_game_fragment"
-        tools:layout="@layout/fragment_game_fragment" />
+        tools:layout="@layout/fragment_game_fragment" >
+        <argument
+            android:name="selectedLevel"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_gameFragment_to_gameWin"
+            app:destination="@id/gameWin" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectLevel"
+        android:name="com.projekt.sobokan.SelectLevel"
+        android:label="fragment_select_level"
+        tools:layout="@layout/fragment_select_level" >
+        <action
+            android:id="@+id/action_selectLevel_to_gameFragment"
+            app:destination="@id/gameFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameWin"
+        android:name="com.projekt.sobokan.GameWin"
+        android:label="fragment_game_win"
+        tools:layout="@layout/fragment_game_win" >
+        <action
+            android:id="@+id/action_gameWin_to_mainMenu"
+            app:destination="@id/mainMenu" />
+    </fragment>
 </navigation>

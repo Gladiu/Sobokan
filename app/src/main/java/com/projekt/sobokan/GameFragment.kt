@@ -13,8 +13,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.Navigation
 import java.lang.Math.abs
 
 
@@ -24,9 +26,9 @@ class GameFragment : Fragment(), SensorEventListener {
     lateinit var player: Player
     lateinit var gameView: GameView
 
+    var moveCount:Int = 0
 
     private val TAG = "GameActivity"
-    lateinit var scoreIntent:Intent
 
     private lateinit var sensorManager: SensorManager
     private lateinit var accelerometer: Sensor
@@ -40,7 +42,7 @@ class GameFragment : Fragment(), SensorEventListener {
 
     private var lastScreenTap: Long = 0
     fun ScreenTapped(): Boolean {
-
+        moveCount++
         if (System.currentTimeMillis() > lastScreenTap+200) {
             lastScreenTap = System.currentTimeMillis()
             if (map.CheckMove(
@@ -54,6 +56,11 @@ class GameFragment : Fragment(), SensorEventListener {
                 player.y += (map.tileSize) * player.requestedMoveY
                 player.logicX += player.requestedMoveX
                 player.logicY += player.requestedMoveY
+                if (map.CheckGameEnd()) {
+                    val bundle = bundleOf("moveCount" to moveCount)
+                    Navigation.findNavController(requireView())
+                        .navigate(R.id.action_gameFragment_to_gameWin, bundle)
+                }
                 return true
             }
         }
@@ -68,7 +75,9 @@ class GameFragment : Fragment(), SensorEventListener {
         //loadLevel("1.txt")
         map = GameMap(requireContext())
         gameView = GameView(requireContext())
-        map.loadLevel("1.txt", requireActivity())
+        map.loadLevel(
+            arguments?.getInt("pickedLevel").toString()
+            +".txt", requireActivity())
         player = Player(requireContext(), map.tileSize)
         map.ResetPlayer(player)
         gameView.player = player
@@ -99,6 +108,10 @@ class GameFragment : Fragment(), SensorEventListener {
 
                 gameView.visibility = View.GONE
                 gameView.visibility = View.VISIBLE
+
+
+
+
                 myHandler.postDelayed(runnable, repeatPeriod)
 
         }

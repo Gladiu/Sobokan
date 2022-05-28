@@ -12,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
-        android:text="Start"
-        style="?android:attr/buttonBarButtonStyle" />
 
+        style="?android:attr/buttonBarButtonStyle" />
+<!--
     <Button
         android:id="@+id/button_hs"
         android:layout_width="match_parent"
@@ -23,12 +23,13 @@
         android:text="High Scores"
         style="?android:attr/buttonBarButtonStyle" />
 
+-->
     <Button
         android:id="@+id/button_quit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.2"
-        android:text="Quit"
+
         style="?android:attr/buttonBarButtonStyle" />
 
 </LinearLayout>

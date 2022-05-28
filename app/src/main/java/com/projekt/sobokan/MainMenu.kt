@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.navigation.Navigation
 
 // TODO: Rename parameter arguments, choose names that match
@@ -37,15 +38,14 @@ class MainMenu : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_main_menu, container, false )
-
-        view.findViewById<View>(R.id.button_start).setOnClickListener{
-            Navigation.findNavController(view).navigate(R.id.action_mainMenu_to_gameFragment)
+        val startButton: Button = view.findViewById(R.id.button_start)
+        startButton.text = "start"//getString(R.string.startButtonContent)
+        startButton.setOnClickListener{
+            Navigation.findNavController(view).navigate(R.id.action_mainMenu_to_selectLevel)
         }
-        view.findViewById<View>(R.id.button_hs).setOnClickListener{
-
-            Navigation.findNavController(view).navigate(R.id.action_mainMenu_to_highScores)
-        }
-        view.findViewById<View>(R.id.button_quit).setOnClickListener{
+        val quitButton: Button = view.findViewById(R.id.button_quit)
+        quitButton.text = "quit"//getString(R.string.quitButtonContent)
+        quitButton.setOnClickListener{
             activity?.finish()
         }
         return view
