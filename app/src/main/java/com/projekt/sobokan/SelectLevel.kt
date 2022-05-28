@@ -26,7 +26,7 @@ class SelectLevel : Fragment() {
 
         val buttonStyle = androidx.appcompat.R.attr.buttonBarButtonStyle
         for (i in 1..buttonsToCreate){
-            val newButton: Button = Button( ContextThemeWrapper(context, buttonStyle), null, buttonStyle) // Warning but it works
+            val newButton: Button = Button( ContextThemeWrapper(context, R.style.Theme_Sobokan), null, buttonStyle) // Warning but it works
 
             newButton.text = i.toString()
             newButton.setOnClickListener {

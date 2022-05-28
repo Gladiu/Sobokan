@@ -5,10 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".SelectLevel">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/buttonLayout"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"></LinearLayout>
+    </ScrollView>
+
 </FrameLayout>

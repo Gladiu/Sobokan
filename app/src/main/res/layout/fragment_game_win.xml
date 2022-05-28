@@ -10,11 +10,8 @@
         android:id="@+id/scoreText"
         android:layout_width="match_parent"
         android:layout_height="509dp"
+        android:gravity="center"
         android:fontFamily="@font/alfa_slab_one"
-        android:textSize="96sp" />
+        android:textSize="48sp" />
 
-    <Button
-        android:id="@+id/continueButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 </LinearLayout >

@@ -42,7 +42,6 @@ class GameFragment : Fragment(), SensorEventListener {
 
     private var lastScreenTap: Long = 0
     fun ScreenTapped(): Boolean {
-        moveCount++
         if (System.currentTimeMillis() > lastScreenTap+200) {
             lastScreenTap = System.currentTimeMillis()
             if (map.CheckMove(
@@ -56,6 +55,7 @@ class GameFragment : Fragment(), SensorEventListener {
                 player.y += (map.tileSize) * player.requestedMoveY
                 player.logicX += player.requestedMoveX
                 player.logicY += player.requestedMoveY
+                moveCount++
                 if (map.CheckGameEnd()) {
                     val bundle = bundleOf("moveCount" to moveCount)
                     Navigation.findNavController(requireView())

@@ -30,15 +30,6 @@ class GameWin : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        val scoreText:TextView = requireView().findViewById(R.id.scoreText)
-        val continueButton: Button = requireView().findViewById(R.id.continueButton)
-        //scoreText.text = getString(R.string.moveCountContent) + " "+ arguments?.getInt("moveCount").toString()
-        scoreText.text = "Moves:"+ " "+ arguments?.getInt("moveCount").toString()
-
-        continueButton.text = "Continue"
-        continueButton.setOnClickListener {
-            Navigation.findNavController(requireView()).navigate(R.id.action_gameWin_to_mainMenu)
-        }
     }
 
     override fun onCreateView(
@@ -46,7 +37,14 @@ class GameWin : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(R.layout.fragment_title_screen,container, false)
+        val view: View = inflater.inflate(R.layout.fragment_game_win,container, false)
+        val scoreText:TextView = view.findViewById(R.id.scoreText)
+        //scoreText.text = getString(R.string.moveCountContent) + " "+ arguments?.getInt("moveCount").toString()
+        scoreText.text = "Moves:"+ " "+ arguments?.getInt("moveCount").toString()
+
+        view.setOnClickListener {
+            Navigation.findNavController(requireView()).navigate(R.id.action_gameWin_to_mainMenu)
+        }
         return view
     }
 
