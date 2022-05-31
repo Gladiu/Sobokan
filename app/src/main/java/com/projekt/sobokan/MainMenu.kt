@@ -39,12 +39,12 @@ class MainMenu : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_main_menu, container, false )
         val startButton: Button = view.findViewById(R.id.button_start)
-        startButton.text = "start"//getString(R.string.startButtonContent)
+        startButton.text = getString(R.string.startContent)
         startButton.setOnClickListener{
             Navigation.findNavController(view).navigate(R.id.action_mainMenu_to_selectLevel)
         }
         val quitButton: Button = view.findViewById(R.id.button_quit)
-        quitButton.text = "quit"//getString(R.string.quitButtonContent)
+        quitButton.text = getString(R.string.quitContent)
         quitButton.setOnClickListener{
             activity?.finish()
         }

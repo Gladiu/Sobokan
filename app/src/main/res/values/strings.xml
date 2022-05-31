@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="movesContent">Moves:</string>
+    <string name="quitContent">Quit</string>
+    <string name="startContent">Start</string>
+</resources>

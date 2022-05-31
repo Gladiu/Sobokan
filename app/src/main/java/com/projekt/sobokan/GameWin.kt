@@ -40,7 +40,7 @@ class GameWin : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_game_win,container, false)
         val scoreText:TextView = view.findViewById(R.id.scoreText)
         //scoreText.text = getString(R.string.moveCountContent) + " "+ arguments?.getInt("moveCount").toString()
-        scoreText.text = "Moves:"+ " "+ arguments?.getInt("moveCount").toString()
+        scoreText.text = R.string.movesContent + " "+ arguments?.getInt("moveCount").toString()
 
         view.setOnClickListener {
             Navigation.findNavController(requireView()).navigate(R.id.action_gameWin_to_mainMenu)
